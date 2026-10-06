@@ -2697,7 +2697,7 @@ class _Gen:
         if not bd:
             return None
         if not os.path.isabs(bd) and self.project_dir:
-            bd = os.path.normpath(os.path.join(self.project_dir, bd))
+            bd = os.path.normpath(os.path.join(os.path.abspath(self.project_dir), bd))
         if os.path.isabs(bd):
             if self.folder:
                 try:

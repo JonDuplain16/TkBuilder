@@ -54,7 +54,7 @@ def form_row(p, parent, row, label, name, **props):
 def beam_calculator():
     p, win = project("Beam Calculator", "Beam Calculator", "slate",
                      "Calls beam_deflection() and shows the returned dict in labels.",
-                     440, 360, backend=True)
+                     440, 390, backend=True)
     add(p, win, "Label", 0, 0, text="Simply supported beam, centre load", variant="Heading")
     inputs = add(p, win, "LabelFrame", 1, 0, text="Inputs", layout={"fill": "x"})
     form_row(p, inputs["id"], 0, "Load (N)", "load_n", text="5000", value_type="float")
@@ -103,7 +103,7 @@ def unit_converter():
 def sensor_dashboard():
     p, win = project("Live Sensor", "Live Sensor", "midnight",
                      "A window timer calls sensor_reading() every second and logs it.",
-                     460, 420, backend=True)
+                     500, 420, backend=True)
     w = p.main_window
     w["props"]["timer_ms"] = 1000
     add(p, win, "Label", 0, 0, text="Channel")

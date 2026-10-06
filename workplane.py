@@ -664,6 +664,12 @@ class Workplane(ttk.Frame):
         for i in range(3):
             c.create_line(0, 0, 0, 0, fill=theme.MUTED, width=2, tags=("grip", "gripline%d" % i))
         c.create_text(0, 0, anchor="ne", fill=theme.MUTED, font=_ui_font(9), tags=("sizetext",))
+        # "content doesn't fit" warning under the size caption (click = fit)
+        c.create_text(0, 0, anchor="ne", fill=getattr(theme, "WARNING", "#d97706"),
+                      font=_ui_font(9, "bold"), text="", tags=("fittext",))
+        c.tag_bind("fittext", "<Enter>", lambda e: c.configure(cursor="hand2"))
+        c.tag_bind("fittext", "<Leave>", lambda e: c.configure(cursor=""))
+        c.tag_bind("fittext", "<ButtonPress-1>", lambda e: self.fit_window())
         c.tag_bind("grip", "<Enter>", lambda e: c.configure(cursor="size_nw_se"))
         c.tag_bind("grip", "<Leave>", lambda e: self._resize or c.configure(cursor=""))
         c.tag_bind("grip", "<ButtonPress-1>", self._grip_press)
@@ -967,6 +973,85 @@ class Workplane(ttk.Frame):
         self.show_selection(self.app.selected_id)
         if self._created_last:
             self.after_idle(self._flash_created)
+        if getattr(self, "_fit_job", None) is None:
+            self._fit_job = self.after_idle(self._check_fit)
+
+    # ------------------------------------------------- does the content fit?
+    def content_need(self):
+        """(width, height) in design pixels that the window's content needs,
+        estimated like Tk's grid does: per column/row the largest requested
+        size of the widgets in it (spanning widgets widen their last column)."""
+        c = self._content
+        if c is None:
+            return None
+
+        def pad(v):
+            parts = [int(float(x)) for x in str(v).split()] or [0]
+            return parts[0] + parts[-1]
+
+        cols, rows, spans = {}, {}, []
+        for w in c.grid_slaves():
+            try:
+                info = w.grid_info()
+                r, col = int(info["row"]), int(info["column"])
+                rs, cs = int(info["rowspan"]), int(info["columnspan"])
+                need_w = w.winfo_reqwidth() + pad(info["padx"]) + 2 * int(info["ipadx"])
+                need_h = w.winfo_reqheight() + pad(info["pady"]) + 2 * int(info["ipady"])
+            except (tk.TclError, KeyError, ValueError):
+                continue
+            if cs == 1:
+                cols[col] = max(cols.get(col, 0), need_w)
+            else:
+                spans.append(("c", col, cs, need_w))
+            if rs == 1:
+                rows[r] = max(rows.get(r, 0), need_h)
+            else:
+                spans.append(("r", r, rs, need_h))
+        for axis, start, n, need in spans:
+            sizes = cols if axis == "c" else rows
+            have = sum(sizes.get(i, 0) for i in range(start, start + n))
+            if need > have:
+                last = start + n - 1
+                sizes[last] = sizes.get(last, 0) + need - have
+        try:
+            frame_pad_x = 2 * int(float(c.cget("padx")))
+            frame_pad_y = 2 * int(float(c.cget("pady")))
+        except (tk.TclError, ValueError):
+            frame_pad_x = frame_pad_y = 0
+        k = self.styler.scale or 1.0
+        return ((sum(cols.values()) + frame_pad_x) / k, (sum(rows.values()) + frame_pad_y) / k)
+
+    def _check_fit(self):
+        self._fit_job = None
+        win = self.app.project.find(self.current_window_id)
+        if win is None or self._content is None:
+            return
+        need = self.content_need()
+        text = ""
+        if need is not None:
+            w, h = int(win["props"]["width"]), int(win["props"]["height"])
+            nw, nh = need
+            if nw > w + 1 or nh > h + 1:
+                text = "⚠ Some content is cut off – click here to fit the window"
+        try:
+            if self.canvas.itemcget("fittext", "text") != text:
+                self.canvas.itemconfigure("fittext", text=text)
+        except tk.TclError:
+            pass
+
+    def fit_window(self):
+        """Grow the window so all of its content fits (rounded up to 10 px)."""
+        win = self.app.project.find(self.current_window_id)
+        need = self.content_need()
+        if win is None or need is None:
+            return
+        p = win["props"]
+        w = max(int(p["width"]), int(-(-need[0] // 10) * 10 + 10))
+        h = max(int(p["height"]), int(-(-need[1] // 10) * 10 + 10))
+        if (w, h) == (p["width"], p["height"]):
+            return
+        p["width"], p["height"] = w, h
+        self.app.commit("Window size is now %d × %d pixels, so everything fits." % (w, h))
 
     def _flash_created(self):
         ids, self._created_last = self._created_last, []
@@ -1533,8 +1618,9 @@ class Workplane(ttk.Frame):
                 p.get("width"), p.get("height"))
             c.itemconfigure("sizetext", text="%s × %s pixels   (drag the corner to resize)" % (w, h))
         c.coords("sizetext", x1 - 2, y1 + _px(16))
+        c.coords("fittext", x1 - 2, y1 + _px(36))
         c.tag_raise("grip")
-        c.configure(scrollregion=(0, 0, max(cw, x1 + margin), y1 + margin + _px(24)))
+        c.configure(scrollregion=(0, 0, max(cw, x1 + margin), y1 + margin + _px(48)))
 
     # ---------------------------------------------------------- resize grip
     def _grip_press(self, event):
