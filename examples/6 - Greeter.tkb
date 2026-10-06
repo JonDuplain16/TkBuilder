@@ -1,16 +1,32 @@
 {
-  "version": 1,
-  "app_name": "My App",
+  "version": 2,
+  "settings": {
+    "app_name": "Greeter",
+    "theme": "modern_light",
+    "font_family": "",
+    "font_size": 0,
+    "dpi_aware": true,
+    "code_style": "split",
+    "backend_dir": "",
+    "threads": true,
+    "description": "Type a name, click: a check and a message with {name_box}."
+  },
   "windows": [
     {
       "id": "main_window",
       "type": "Window",
       "props": {
         "title": "Greeter",
-        "width": 360,
-        "height": 180,
+        "icon": "",
+        "width": 380,
+        "height": 200,
+        "min_width": 0,
+        "min_height": 0,
+        "padding": 12,
         "resizable": true,
-        "padding": 10,
+        "start": "center",
+        "topmost": false,
+        "timer_ms": 0,
         "bg": "",
         "menu": []
       },
@@ -20,22 +36,27 @@
         "rowspan": 1,
         "colspan": 1,
         "fill": "none",
-        "halign": "center",
+        "halign": "left",
         "valign": "center",
-        "padx": 5,
-        "pady": 5
+        "padx": 6,
+        "pady": 4
       },
       "events": {
         "on_open": [],
-        "on_close": []
+        "on_close": [],
+        "on_timer": []
       },
+      "hooks": [],
       "children": [
         {
           "id": "question",
           "type": "Label",
           "props": {
             "text": "What's your name?",
+            "variant": "",
             "image": "",
+            "compound": "left",
+            "anchor": "w",
             "justify": "left",
             "wraplength": 0,
             "width": 0,
@@ -47,7 +68,9 @@
               "underline": false
             },
             "fg": "",
-            "bg": ""
+            "bg": "",
+            "tooltip": "",
+            "cursor": ""
           },
           "layout": {
             "row": 0,
@@ -55,19 +78,26 @@
             "rowspan": 1,
             "colspan": 1,
             "fill": "none",
-            "halign": "center",
+            "halign": "left",
             "valign": "center",
-            "padx": 5,
-            "pady": 5
+            "padx": 6,
+            "pady": 4
           },
-          "events": {}
+          "events": {
+            "on_click": []
+          },
+          "hooks": []
         },
         {
           "id": "name_box",
           "type": "Entry",
           "props": {
             "text": "",
+            "placeholder": "Type your name",
+            "value_type": "text",
             "password": false,
+            "justify": "left",
+            "state": "normal",
             "width": 20,
             "font": {
               "family": "",
@@ -78,18 +108,18 @@
             },
             "fg": "",
             "bg": "",
-            "state": "normal"
+            "tooltip": ""
           },
           "layout": {
             "row": 0,
             "col": 1,
             "rowspan": 1,
             "colspan": 1,
-            "fill": "none",
-            "halign": "center",
+            "fill": "x",
+            "halign": "left",
             "valign": "center",
-            "padx": 5,
-            "pady": 5
+            "padx": 6,
+            "pady": 4
           },
           "events": {
             "on_enter": [
@@ -106,18 +136,24 @@
                 "type": "set_text",
                 "params": {
                   "target": "greeting",
-                  "text": "Hello, {name_box}! \ud83d\udc4b"
+                  "text": "Hello, {name_box}!"
                 }
               }
-            ]
-          }
+            ],
+            "on_change": []
+          },
+          "hooks": []
         },
         {
           "id": "hello_button",
           "type": "Button",
           "props": {
             "text": "Say hello",
+            "variant": "Accent",
             "image": "",
+            "compound": "left",
+            "shortcut": "",
+            "default": false,
             "width": 0,
             "font": {
               "family": "",
@@ -128,18 +164,20 @@
             },
             "fg": "",
             "bg": "",
-            "state": "normal"
+            "state": "normal",
+            "tooltip": "",
+            "cursor": ""
           },
           "layout": {
             "row": 1,
-            "col": 0,
+            "col": 1,
             "rowspan": 1,
-            "colspan": 2,
+            "colspan": 1,
             "fill": "none",
-            "halign": "center",
+            "halign": "right",
             "valign": "center",
-            "padx": 5,
-            "pady": 5
+            "padx": 6,
+            "pady": 4
           },
           "events": {
             "command": [
@@ -156,30 +194,38 @@
                 "type": "set_text",
                 "params": {
                   "target": "greeting",
-                  "text": "Hello, {name_box}! \ud83d\udc4b"
+                  "text": "Hello, {name_box}!"
                 }
               }
             ]
-          }
+          },
+          "hooks": [
+            "command"
+          ]
         },
         {
           "id": "greeting",
           "type": "Label",
           "props": {
             "text": "",
+            "variant": "Heading",
             "image": "",
+            "compound": "left",
+            "anchor": "w",
             "justify": "left",
             "wraplength": 0,
             "width": 0,
             "font": {
               "family": "",
-              "size": 14,
-              "bold": true,
+              "size": 0,
+              "bold": false,
               "italic": false,
               "underline": false
             },
-            "fg": "#2563eb",
-            "bg": ""
+            "fg": "",
+            "bg": "",
+            "tooltip": "",
+            "cursor": ""
           },
           "layout": {
             "row": 2,
@@ -187,12 +233,15 @@
             "rowspan": 1,
             "colspan": 2,
             "fill": "none",
-            "halign": "center",
+            "halign": "left",
             "valign": "center",
-            "padx": 5,
-            "pady": 5
+            "padx": 6,
+            "pady": 4
           },
-          "events": {}
+          "events": {
+            "on_click": []
+          },
+          "hooks": []
         }
       ]
     }

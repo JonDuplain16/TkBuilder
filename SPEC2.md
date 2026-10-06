@@ -255,3 +255,14 @@ shows written/kept files, offers missing hook stubs with Copy), "Copy",
   Use **forward slashes** in Python string paths in heredocs.
 * Don't edit files you don't own; other agents work in parallel.
 * Report: what you built, test evidence, known gaps, requests for shared files.
+
+---------------------------------------------------------------------------
+## 7. High-DPI rule (decided during v2)
+The user's screen is 4K at 250 %. The editor is DPI-aware (`theme.SCALE`,
+`theme.px(n)`). When `settings["dpi_aware"]` is on (default), generated apps
+compute `SCALE = winfo_fpixels("1i") / 96` (>= 1) and wrap every pixel size in
+`px(n)`: geometry, min size, padx/pady, padding, wraplength, lengths, table
+column widths / row height, canvas sizes. The designer scales its preview by
+the same factor so the designed window appears at the real app's size. Fonts
+scale through Tk automatically. Editor panels use `theme.px()` for their own
+pixel sizes.

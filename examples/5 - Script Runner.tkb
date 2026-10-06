@@ -1,0 +1,359 @@
+{
+  "version": 2,
+  "settings": {
+    "app_name": "Script Runner",
+    "theme": "dracula",
+    "font_family": "",
+    "font_size": 0,
+    "dpi_aware": true,
+    "code_style": "split",
+    "backend_dir": "",
+    "threads": true,
+    "description": "Runs a script or program and streams its output into a console."
+  },
+  "windows": [
+    {
+      "id": "main_window",
+      "type": "Window",
+      "props": {
+        "title": "Script Runner",
+        "icon": "",
+        "width": 520,
+        "height": 400,
+        "min_width": 0,
+        "min_height": 0,
+        "padding": 12,
+        "resizable": true,
+        "start": "center",
+        "topmost": false,
+        "timer_ms": 0,
+        "bg": "",
+        "menu": []
+      },
+      "layout": {
+        "row": 0,
+        "col": 0,
+        "rowspan": 1,
+        "colspan": 1,
+        "fill": "none",
+        "halign": "left",
+        "valign": "center",
+        "padx": 6,
+        "pady": 4
+      },
+      "events": {
+        "on_open": [],
+        "on_close": [],
+        "on_timer": []
+      },
+      "hooks": [],
+      "children": [
+        {
+          "id": "label1",
+          "type": "Label",
+          "props": {
+            "text": "Script",
+            "variant": "",
+            "image": "",
+            "compound": "left",
+            "anchor": "w",
+            "justify": "left",
+            "wraplength": 0,
+            "width": 0,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "tooltip": "",
+            "cursor": ""
+          },
+          "layout": {
+            "row": 0,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "on_click": []
+          },
+          "hooks": []
+        },
+        {
+          "id": "script",
+          "type": "FilePicker",
+          "props": {
+            "mode": "open",
+            "filetypes": [
+              "Python files|*.py",
+              "All files|*.*"
+            ],
+            "text": "backend/slow_task.py",
+            "button_text": "Browse\u2026",
+            "width": 30,
+            "state": "normal",
+            "tooltip": ""
+          },
+          "layout": {
+            "row": 0,
+            "col": 1,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "x",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "on_change": []
+          },
+          "hooks": []
+        },
+        {
+          "id": "label2",
+          "type": "Label",
+          "props": {
+            "text": "Steps",
+            "variant": "",
+            "image": "",
+            "compound": "left",
+            "anchor": "w",
+            "justify": "left",
+            "wraplength": 0,
+            "width": 0,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "tooltip": "",
+            "cursor": ""
+          },
+          "layout": {
+            "row": 1,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "on_click": []
+          },
+          "hooks": []
+        },
+        {
+          "id": "steps",
+          "type": "Spinbox",
+          "props": {
+            "from_": 1,
+            "to": 50,
+            "increment": 1,
+            "decimals": 0,
+            "value": 8,
+            "wrap": false,
+            "width": 8,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "state": "normal",
+            "tooltip": ""
+          },
+          "layout": {
+            "row": 1,
+            "col": 1,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "command": []
+          },
+          "hooks": []
+        },
+        {
+          "id": "run_button",
+          "type": "Button",
+          "props": {
+            "text": "Run",
+            "variant": "Accent",
+            "image": "",
+            "compound": "left",
+            "shortcut": "",
+            "default": false,
+            "width": 0,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "state": "normal",
+            "tooltip": "",
+            "cursor": ""
+          },
+          "layout": {
+            "row": 2,
+            "col": 1,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "right",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "command": [
+              {
+                "type": "run_command",
+                "params": {
+                  "command": "python -u \"{script}\" {steps}",
+                  "cwd": "",
+                  "output": "output",
+                  "busy": "busy",
+                  "show_errors": true
+                }
+              }
+            ]
+          },
+          "hooks": [
+            "command"
+          ]
+        },
+        {
+          "id": "busy",
+          "type": "Progressbar",
+          "props": {
+            "value": 0,
+            "maximum": 100,
+            "orient": "horizontal",
+            "length": 200,
+            "mode": "determinate"
+          },
+          "layout": {
+            "row": 3,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 2,
+            "fill": "x",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {},
+          "hooks": []
+        },
+        {
+          "id": "output",
+          "type": "Console",
+          "props": {
+            "width": 60,
+            "height": 10,
+            "capture_print": false,
+            "timestamps": false,
+            "max_lines": 5000,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            }
+          },
+          "layout": {
+            "row": 4,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 2,
+            "fill": "both",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {},
+          "hooks": []
+        },
+        {
+          "id": "clear",
+          "type": "Button",
+          "props": {
+            "text": "Clear",
+            "variant": "",
+            "image": "",
+            "compound": "left",
+            "shortcut": "",
+            "default": false,
+            "width": 0,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "state": "normal",
+            "tooltip": "",
+            "cursor": ""
+          },
+          "layout": {
+            "row": 5,
+            "col": 1,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "right",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "command": [
+              {
+                "type": "clear",
+                "params": {
+                  "target": "output"
+                }
+              }
+            ]
+          },
+          "hooks": [
+            "command"
+          ]
+        }
+      ]
+    }
+  ]
+}

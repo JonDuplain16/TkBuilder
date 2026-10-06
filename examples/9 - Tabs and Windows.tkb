@@ -1,16 +1,32 @@
 {
-  "version": 1,
-  "app_name": "My App",
+  "version": 2,
+  "settings": {
+    "app_name": "Tabs and Windows",
+    "theme": "rose",
+    "font_family": "",
+    "font_size": 0,
+    "dpi_aware": true,
+    "code_style": "split",
+    "backend_dir": "",
+    "threads": true,
+    "description": "Tabs, option groups and a second window filled with {placeholders}."
+  },
   "windows": [
     {
       "id": "main_window",
       "type": "Window",
       "props": {
         "title": "Tabs & Windows Demo",
+        "icon": "",
         "width": 460,
-        "height": 330,
+        "height": 340,
+        "min_width": 0,
+        "min_height": 0,
+        "padding": 12,
         "resizable": true,
-        "padding": 10,
+        "start": "center",
+        "topmost": false,
+        "timer_ms": 0,
         "bg": "",
         "menu": []
       },
@@ -20,15 +36,17 @@
         "rowspan": 1,
         "colspan": 1,
         "fill": "none",
-        "halign": "center",
+        "halign": "left",
         "valign": "center",
-        "padx": 5,
-        "pady": 5
+        "padx": 6,
+        "pady": 4
       },
       "events": {
         "on_open": [],
-        "on_close": []
+        "on_close": [],
+        "on_timer": []
       },
+      "hooks": [],
       "children": [
         {
           "id": "tabs1",
@@ -43,22 +61,22 @@
             "rowspan": 1,
             "colspan": 1,
             "fill": "both",
-            "halign": "center",
+            "halign": "left",
             "valign": "center",
-            "padx": 5,
-            "pady": 5
+            "padx": 6,
+            "pady": 4
           },
           "events": {
             "on_tab_change": []
           },
+          "hooks": [],
           "children": [
             {
               "id": "tab1",
               "type": "Tab",
               "props": {
                 "text": "Profile",
-                "bg": "",
-                "padding": 8
+                "padding": 10
               },
               "layout": {
                 "row": 0,
@@ -66,19 +84,23 @@
                 "rowspan": 1,
                 "colspan": 1,
                 "fill": "none",
-                "halign": "center",
+                "halign": "left",
                 "valign": "center",
-                "padx": 5,
-                "pady": 5
+                "padx": 6,
+                "pady": 4
               },
               "events": {},
+              "hooks": [],
               "children": [
                 {
                   "id": "label1",
                   "type": "Label",
                   "props": {
                     "text": "Name:",
+                    "variant": "",
                     "image": "",
+                    "compound": "left",
+                    "anchor": "w",
                     "justify": "left",
                     "wraplength": 0,
                     "width": 0,
@@ -90,7 +112,9 @@
                       "underline": false
                     },
                     "fg": "",
-                    "bg": ""
+                    "bg": "",
+                    "tooltip": "",
+                    "cursor": ""
                   },
                   "layout": {
                     "row": 0,
@@ -100,17 +124,24 @@
                     "fill": "none",
                     "halign": "right",
                     "valign": "center",
-                    "padx": 5,
-                    "pady": 5
+                    "padx": 6,
+                    "pady": 4
                   },
-                  "events": {}
+                  "events": {
+                    "on_click": []
+                  },
+                  "hooks": []
                 },
                 {
                   "id": "name",
                   "type": "Entry",
                   "props": {
                     "text": "",
+                    "placeholder": "",
+                    "value_type": "text",
                     "password": false,
+                    "justify": "left",
+                    "state": "normal",
                     "width": 20,
                     "font": {
                       "family": "",
@@ -121,7 +152,7 @@
                     },
                     "fg": "",
                     "bg": "",
-                    "state": "normal"
+                    "tooltip": ""
                   },
                   "layout": {
                     "row": 0,
@@ -129,21 +160,26 @@
                     "rowspan": 1,
                     "colspan": 1,
                     "fill": "none",
-                    "halign": "center",
+                    "halign": "left",
                     "valign": "center",
-                    "padx": 5,
-                    "pady": 5
+                    "padx": 6,
+                    "pady": 4
                   },
                   "events": {
-                    "on_enter": []
-                  }
+                    "on_enter": [],
+                    "on_change": []
+                  },
+                  "hooks": []
                 },
                 {
                   "id": "label2",
                   "type": "Label",
                   "props": {
                     "text": "Favourite colour:",
+                    "variant": "",
                     "image": "",
+                    "compound": "left",
+                    "anchor": "w",
                     "justify": "left",
                     "wraplength": 0,
                     "width": 0,
@@ -155,7 +191,9 @@
                       "underline": false
                     },
                     "fg": "",
-                    "bg": ""
+                    "bg": "",
+                    "tooltip": "",
+                    "cursor": ""
                   },
                   "layout": {
                     "row": 1,
@@ -165,10 +203,13 @@
                     "fill": "none",
                     "halign": "right",
                     "valign": "center",
-                    "padx": 5,
-                    "pady": 5
+                    "padx": 6,
+                    "pady": 4
                   },
-                  "events": {}
+                  "events": {
+                    "on_click": []
+                  },
+                  "hooks": []
                 },
                 {
                   "id": "colour",
@@ -180,6 +221,7 @@
                       "Blue"
                     ],
                     "text": "Blue",
+                    "value_type": "text",
                     "readonly": true,
                     "width": 18,
                     "font": {
@@ -189,7 +231,8 @@
                       "italic": false,
                       "underline": false
                     },
-                    "state": "normal"
+                    "state": "normal",
+                    "tooltip": ""
                   },
                   "layout": {
                     "row": 1,
@@ -197,21 +240,25 @@
                     "rowspan": 1,
                     "colspan": 1,
                     "fill": "none",
-                    "halign": "center",
+                    "halign": "left",
                     "valign": "center",
-                    "padx": 5,
-                    "pady": 5
+                    "padx": 6,
+                    "pady": 4
                   },
                   "events": {
                     "on_select": []
-                  }
+                  },
+                  "hooks": []
                 },
                 {
                   "id": "label3",
                   "type": "Label",
                   "props": {
                     "text": "Age:",
+                    "variant": "",
                     "image": "",
+                    "compound": "left",
+                    "anchor": "w",
                     "justify": "left",
                     "wraplength": 0,
                     "width": 0,
@@ -223,7 +270,9 @@
                       "underline": false
                     },
                     "fg": "",
-                    "bg": ""
+                    "bg": "",
+                    "tooltip": "",
+                    "cursor": ""
                   },
                   "layout": {
                     "row": 2,
@@ -233,10 +282,13 @@
                     "fill": "none",
                     "halign": "right",
                     "valign": "center",
-                    "padx": 5,
-                    "pady": 5
+                    "padx": 6,
+                    "pady": 4
                   },
-                  "events": {}
+                  "events": {
+                    "on_click": []
+                  },
+                  "hooks": []
                 },
                 {
                   "id": "age",
@@ -245,7 +297,9 @@
                     "from_": 0,
                     "to": 120,
                     "increment": 1,
+                    "decimals": 0,
                     "value": 18,
+                    "wrap": false,
                     "width": 8,
                     "font": {
                       "family": "",
@@ -254,7 +308,8 @@
                       "italic": false,
                       "underline": false
                     },
-                    "state": "normal"
+                    "state": "normal",
+                    "tooltip": ""
                   },
                   "layout": {
                     "row": 2,
@@ -262,14 +317,15 @@
                     "rowspan": 1,
                     "colspan": 1,
                     "fill": "none",
-                    "halign": "center",
+                    "halign": "left",
                     "valign": "center",
-                    "padx": 5,
-                    "pady": 5
+                    "padx": 6,
+                    "pady": 4
                   },
                   "events": {
                     "command": []
-                  }
+                  },
+                  "hooks": []
                 }
               ]
             },
@@ -278,8 +334,7 @@
               "type": "Tab",
               "props": {
                 "text": "Options",
-                "bg": "",
-                "padding": 8
+                "padding": 10
               },
               "layout": {
                 "row": 0,
@@ -287,18 +342,20 @@
                 "rowspan": 1,
                 "colspan": 1,
                 "fill": "none",
-                "halign": "center",
+                "halign": "left",
                 "valign": "center",
-                "padx": 5,
-                "pady": 5
+                "padx": 6,
+                "pady": 4
               },
               "events": {},
+              "hooks": [],
               "children": [
                 {
                   "id": "newsletter",
                   "type": "Checkbutton",
                   "props": {
                     "text": "Send me the newsletter",
+                    "variant": "",
                     "checked": false,
                     "font": {
                       "family": "",
@@ -309,7 +366,8 @@
                     },
                     "fg": "",
                     "bg": "",
-                    "state": "normal"
+                    "state": "normal",
+                    "tooltip": ""
                   },
                   "layout": {
                     "row": 0,
@@ -319,18 +377,22 @@
                     "fill": "none",
                     "halign": "left",
                     "valign": "center",
-                    "padx": 5,
-                    "pady": 5
+                    "padx": 6,
+                    "pady": 4
                   },
                   "events": {
                     "command": []
-                  }
+                  },
+                  "hooks": []
                 },
                 {
                   "id": "group1",
                   "type": "LabelFrame",
                   "props": {
                     "text": "Size",
+                    "variant": "",
+                    "padding": 8,
+                    "labelanchor": "nw",
                     "font": {
                       "family": "",
                       "size": 0,
@@ -339,8 +401,7 @@
                       "underline": false
                     },
                     "fg": "",
-                    "bg": "",
-                    "padding": 8
+                    "bg": ""
                   },
                   "layout": {
                     "row": 1,
@@ -348,19 +409,21 @@
                     "rowspan": 1,
                     "colspan": 1,
                     "fill": "none",
-                    "halign": "center",
+                    "halign": "left",
                     "valign": "center",
-                    "padx": 5,
-                    "pady": 5
+                    "padx": 6,
+                    "pady": 4
                   },
                   "events": {},
+                  "hooks": [],
                   "children": [
                     {
-                      "id": "option1",
+                      "id": "size_small",
                       "type": "Radiobutton",
                       "props": {
                         "text": "Small",
                         "group": "size",
+                        "value": "",
                         "selected": false,
                         "font": {
                           "family": "",
@@ -371,7 +434,8 @@
                         },
                         "fg": "",
                         "bg": "",
-                        "state": "normal"
+                        "state": "normal",
+                        "tooltip": ""
                       },
                       "layout": {
                         "row": 0,
@@ -379,21 +443,23 @@
                         "rowspan": 1,
                         "colspan": 1,
                         "fill": "none",
-                        "halign": "center",
+                        "halign": "left",
                         "valign": "center",
-                        "padx": 5,
-                        "pady": 5
+                        "padx": 6,
+                        "pady": 4
                       },
                       "events": {
                         "command": []
-                      }
+                      },
+                      "hooks": []
                     },
                     {
-                      "id": "option2",
+                      "id": "size_medium",
                       "type": "Radiobutton",
                       "props": {
                         "text": "Medium",
                         "group": "size",
+                        "value": "",
                         "selected": true,
                         "font": {
                           "family": "",
@@ -404,7 +470,8 @@
                         },
                         "fg": "",
                         "bg": "",
-                        "state": "normal"
+                        "state": "normal",
+                        "tooltip": ""
                       },
                       "layout": {
                         "row": 0,
@@ -412,21 +479,23 @@
                         "rowspan": 1,
                         "colspan": 1,
                         "fill": "none",
-                        "halign": "center",
+                        "halign": "left",
                         "valign": "center",
-                        "padx": 5,
-                        "pady": 5
+                        "padx": 6,
+                        "pady": 4
                       },
                       "events": {
                         "command": []
-                      }
+                      },
+                      "hooks": []
                     },
                     {
-                      "id": "option3",
+                      "id": "size_large",
                       "type": "Radiobutton",
                       "props": {
                         "text": "Large",
                         "group": "size",
+                        "value": "",
                         "selected": false,
                         "font": {
                           "family": "",
@@ -437,7 +506,8 @@
                         },
                         "fg": "",
                         "bg": "",
-                        "state": "normal"
+                        "state": "normal",
+                        "tooltip": ""
                       },
                       "layout": {
                         "row": 0,
@@ -445,58 +515,102 @@
                         "rowspan": 1,
                         "colspan": 1,
                         "fill": "none",
-                        "halign": "center",
+                        "halign": "left",
                         "valign": "center",
-                        "padx": 5,
-                        "pady": 5
+                        "padx": 6,
+                        "pady": 4
                       },
                       "events": {
                         "command": []
-                      }
+                      },
+                      "hooks": []
                     }
                   ]
                 },
                 {
-                  "id": "volume",
-                  "type": "Scale",
+                  "id": "label4",
+                  "type": "Label",
                   "props": {
-                    "label": "Volume",
-                    "from_": 0,
-                    "to": 100,
-                    "resolution": 1,
-                    "value": 40,
-                    "orient": "horizontal",
-                    "length": 160,
-                    "showvalue": true,
+                    "text": "Volume",
+                    "variant": "",
+                    "image": "",
+                    "compound": "left",
+                    "anchor": "w",
+                    "justify": "left",
+                    "wraplength": 0,
+                    "width": 0,
+                    "font": {
+                      "family": "",
+                      "size": 0,
+                      "bold": false,
+                      "italic": false,
+                      "underline": false
+                    },
                     "fg": "",
                     "bg": "",
-                    "state": "normal"
+                    "tooltip": "",
+                    "cursor": ""
                   },
                   "layout": {
                     "row": 2,
                     "col": 0,
                     "rowspan": 1,
                     "colspan": 1,
-                    "fill": "x",
-                    "halign": "center",
+                    "fill": "none",
+                    "halign": "left",
                     "valign": "center",
-                    "padx": 5,
-                    "pady": 5
+                    "padx": 6,
+                    "pady": 4
+                  },
+                  "events": {
+                    "on_click": []
+                  },
+                  "hooks": []
+                },
+                {
+                  "id": "volume",
+                  "type": "Scale",
+                  "props": {
+                    "from_": 0,
+                    "to": 100,
+                    "resolution": 1,
+                    "value": 40,
+                    "showvalue": true,
+                    "orient": "horizontal",
+                    "length": 160,
+                    "state": "normal",
+                    "tooltip": ""
+                  },
+                  "layout": {
+                    "row": 3,
+                    "col": 0,
+                    "rowspan": 1,
+                    "colspan": 1,
+                    "fill": "x",
+                    "halign": "left",
+                    "valign": "center",
+                    "padx": 6,
+                    "pady": 4
                   },
                   "events": {
                     "command": []
-                  }
+                  },
+                  "hooks": []
                 }
               ]
             }
           ]
         },
         {
-          "id": "button2",
+          "id": "show_summary",
           "type": "Button",
           "props": {
             "text": "Show summary \u2192",
+            "variant": "Accent",
             "image": "",
+            "compound": "left",
+            "shortcut": "",
+            "default": false,
             "width": 0,
             "font": {
               "family": "",
@@ -505,9 +619,11 @@
               "italic": false,
               "underline": false
             },
-            "fg": "#ffffff",
-            "bg": "#2563eb",
-            "state": "normal"
+            "fg": "",
+            "bg": "",
+            "state": "normal",
+            "tooltip": "",
+            "cursor": ""
           },
           "layout": {
             "row": 1,
@@ -517,8 +633,8 @@
             "fill": "none",
             "halign": "right",
             "valign": "center",
-            "padx": 5,
-            "pady": 5
+            "padx": 6,
+            "pady": 4
           },
           "events": {
             "command": [
@@ -534,18 +650,22 @@
               {
                 "type": "open_window",
                 "params": {
-                  "window": "window1"
+                  "window": "window1",
+                  "modal": false
                 }
               },
               {
                 "type": "set_text",
                 "params": {
                   "target": "summary",
-                  "text": "{name} is {age} and likes {colour}.\nNewsletter: {newsletter}\nSize: {option1}\nVolume: {volume}"
+                  "text": "{name} is {age} and likes {colour}.\nNewsletter: {newsletter}\nSize: {size_medium}\nVolume: {volume}"
                 }
               }
             ]
-          }
+          },
+          "hooks": [
+            "command"
+          ]
         }
       ]
     },
@@ -554,10 +674,16 @@
       "type": "Window",
       "props": {
         "title": "Summary",
+        "icon": "",
         "width": 340,
         "height": 200,
+        "min_width": 0,
+        "min_height": 0,
+        "padding": 12,
         "resizable": true,
-        "padding": 10,
+        "start": "center",
+        "topmost": false,
+        "timer_ms": 0,
         "bg": "",
         "menu": []
       },
@@ -567,22 +693,27 @@
         "rowspan": 1,
         "colspan": 1,
         "fill": "none",
-        "halign": "center",
+        "halign": "left",
         "valign": "center",
-        "padx": 5,
-        "pady": 5
+        "padx": 6,
+        "pady": 4
       },
       "events": {
         "on_open": [],
-        "on_close": []
+        "on_close": [],
+        "on_timer": []
       },
+      "hooks": [],
       "children": [
         {
           "id": "summary",
           "type": "Label",
           "props": {
             "text": "",
+            "variant": "",
             "image": "",
+            "compound": "left",
+            "anchor": "w",
             "justify": "left",
             "wraplength": 300,
             "width": 0,
@@ -594,7 +725,9 @@
               "underline": false
             },
             "fg": "",
-            "bg": ""
+            "bg": "",
+            "tooltip": "",
+            "cursor": ""
           },
           "layout": {
             "row": 0,
@@ -602,19 +735,26 @@
             "rowspan": 1,
             "colspan": 1,
             "fill": "none",
-            "halign": "center",
+            "halign": "left",
             "valign": "center",
-            "padx": 5,
-            "pady": 5
+            "padx": 6,
+            "pady": 4
           },
-          "events": {}
+          "events": {
+            "on_click": []
+          },
+          "hooks": []
         },
         {
           "id": "button1",
           "type": "Button",
           "props": {
             "text": "Close",
+            "variant": "",
             "image": "",
+            "compound": "left",
+            "shortcut": "",
+            "default": false,
             "width": 0,
             "font": {
               "family": "",
@@ -625,7 +765,9 @@
             },
             "fg": "",
             "bg": "",
-            "state": "normal"
+            "state": "normal",
+            "tooltip": "",
+            "cursor": ""
           },
           "layout": {
             "row": 1,
@@ -633,10 +775,10 @@
             "rowspan": 1,
             "colspan": 1,
             "fill": "none",
-            "halign": "center",
+            "halign": "left",
             "valign": "center",
-            "padx": 5,
-            "pady": 5
+            "padx": 6,
+            "pady": 4
           },
           "events": {
             "command": [
@@ -647,7 +789,10 @@
                 }
               }
             ]
-          }
+          },
+          "hooks": [
+            "command"
+          ]
         }
       ]
     }

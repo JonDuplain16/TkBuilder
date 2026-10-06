@@ -1,0 +1,720 @@
+{
+  "version": 2,
+  "settings": {
+    "app_name": "Beam Calculator",
+    "theme": "slate",
+    "font_family": "",
+    "font_size": 0,
+    "dpi_aware": true,
+    "code_style": "split",
+    "backend_dir": "backend",
+    "threads": true,
+    "description": "Calls beam_deflection() and shows the returned dict in labels."
+  },
+  "windows": [
+    {
+      "id": "main_window",
+      "type": "Window",
+      "props": {
+        "title": "Beam Calculator",
+        "icon": "",
+        "width": 440,
+        "height": 360,
+        "min_width": 0,
+        "min_height": 0,
+        "padding": 12,
+        "resizable": true,
+        "start": "center",
+        "topmost": false,
+        "timer_ms": 0,
+        "bg": "",
+        "menu": []
+      },
+      "layout": {
+        "row": 0,
+        "col": 0,
+        "rowspan": 1,
+        "colspan": 1,
+        "fill": "none",
+        "halign": "left",
+        "valign": "center",
+        "padx": 6,
+        "pady": 4
+      },
+      "events": {
+        "on_open": [],
+        "on_close": [],
+        "on_timer": []
+      },
+      "hooks": [],
+      "children": [
+        {
+          "id": "label1",
+          "type": "Label",
+          "props": {
+            "text": "Simply supported beam, centre load",
+            "variant": "Heading",
+            "image": "",
+            "compound": "left",
+            "anchor": "w",
+            "justify": "left",
+            "wraplength": 0,
+            "width": 0,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "tooltip": "",
+            "cursor": ""
+          },
+          "layout": {
+            "row": 0,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "on_click": []
+          },
+          "hooks": []
+        },
+        {
+          "id": "group1",
+          "type": "LabelFrame",
+          "props": {
+            "text": "Inputs",
+            "variant": "",
+            "padding": 8,
+            "labelanchor": "nw",
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": ""
+          },
+          "layout": {
+            "row": 1,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "x",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {},
+          "hooks": [],
+          "children": [
+            {
+              "id": "label2",
+              "type": "Label",
+              "props": {
+                "text": "Load (N)",
+                "variant": "",
+                "image": "",
+                "compound": "left",
+                "anchor": "w",
+                "justify": "left",
+                "wraplength": 0,
+                "width": 0,
+                "font": {
+                  "family": "",
+                  "size": 0,
+                  "bold": false,
+                  "italic": false,
+                  "underline": false
+                },
+                "fg": "",
+                "bg": "",
+                "tooltip": "",
+                "cursor": ""
+              },
+              "layout": {
+                "row": 0,
+                "col": 0,
+                "rowspan": 1,
+                "colspan": 1,
+                "fill": "none",
+                "halign": "left",
+                "valign": "center",
+                "padx": 6,
+                "pady": 4
+              },
+              "events": {
+                "on_click": []
+              },
+              "hooks": []
+            },
+            {
+              "id": "load_n",
+              "type": "Entry",
+              "props": {
+                "text": "5000",
+                "placeholder": "",
+                "value_type": "float",
+                "password": false,
+                "justify": "left",
+                "state": "normal",
+                "width": 20,
+                "font": {
+                  "family": "",
+                  "size": 0,
+                  "bold": false,
+                  "italic": false,
+                  "underline": false
+                },
+                "fg": "",
+                "bg": "",
+                "tooltip": ""
+              },
+              "layout": {
+                "row": 0,
+                "col": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "fill": "x",
+                "halign": "left",
+                "valign": "center",
+                "padx": 6,
+                "pady": 4
+              },
+              "events": {
+                "on_enter": [],
+                "on_change": []
+              },
+              "hooks": []
+            },
+            {
+              "id": "label3",
+              "type": "Label",
+              "props": {
+                "text": "Span (m)",
+                "variant": "",
+                "image": "",
+                "compound": "left",
+                "anchor": "w",
+                "justify": "left",
+                "wraplength": 0,
+                "width": 0,
+                "font": {
+                  "family": "",
+                  "size": 0,
+                  "bold": false,
+                  "italic": false,
+                  "underline": false
+                },
+                "fg": "",
+                "bg": "",
+                "tooltip": "",
+                "cursor": ""
+              },
+              "layout": {
+                "row": 1,
+                "col": 0,
+                "rowspan": 1,
+                "colspan": 1,
+                "fill": "none",
+                "halign": "left",
+                "valign": "center",
+                "padx": 6,
+                "pady": 4
+              },
+              "events": {
+                "on_click": []
+              },
+              "hooks": []
+            },
+            {
+              "id": "length_m",
+              "type": "Entry",
+              "props": {
+                "text": "2.0",
+                "placeholder": "",
+                "value_type": "float",
+                "password": false,
+                "justify": "left",
+                "state": "normal",
+                "width": 20,
+                "font": {
+                  "family": "",
+                  "size": 0,
+                  "bold": false,
+                  "italic": false,
+                  "underline": false
+                },
+                "fg": "",
+                "bg": "",
+                "tooltip": ""
+              },
+              "layout": {
+                "row": 1,
+                "col": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "fill": "x",
+                "halign": "left",
+                "valign": "center",
+                "padx": 6,
+                "pady": 4
+              },
+              "events": {
+                "on_enter": [],
+                "on_change": []
+              },
+              "hooks": []
+            },
+            {
+              "id": "label4",
+              "type": "Label",
+              "props": {
+                "text": "Young's modulus (GPa)",
+                "variant": "",
+                "image": "",
+                "compound": "left",
+                "anchor": "w",
+                "justify": "left",
+                "wraplength": 0,
+                "width": 0,
+                "font": {
+                  "family": "",
+                  "size": 0,
+                  "bold": false,
+                  "italic": false,
+                  "underline": false
+                },
+                "fg": "",
+                "bg": "",
+                "tooltip": "",
+                "cursor": ""
+              },
+              "layout": {
+                "row": 2,
+                "col": 0,
+                "rowspan": 1,
+                "colspan": 1,
+                "fill": "none",
+                "halign": "left",
+                "valign": "center",
+                "padx": 6,
+                "pady": 4
+              },
+              "events": {
+                "on_click": []
+              },
+              "hooks": []
+            },
+            {
+              "id": "e_gpa",
+              "type": "Entry",
+              "props": {
+                "text": "200",
+                "placeholder": "",
+                "value_type": "float",
+                "password": false,
+                "justify": "left",
+                "state": "normal",
+                "width": 20,
+                "font": {
+                  "family": "",
+                  "size": 0,
+                  "bold": false,
+                  "italic": false,
+                  "underline": false
+                },
+                "fg": "",
+                "bg": "",
+                "tooltip": ""
+              },
+              "layout": {
+                "row": 2,
+                "col": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "fill": "x",
+                "halign": "left",
+                "valign": "center",
+                "padx": 6,
+                "pady": 4
+              },
+              "events": {
+                "on_enter": [],
+                "on_change": []
+              },
+              "hooks": []
+            },
+            {
+              "id": "label5",
+              "type": "Label",
+              "props": {
+                "text": "Second moment of area (cm\u2074)",
+                "variant": "",
+                "image": "",
+                "compound": "left",
+                "anchor": "w",
+                "justify": "left",
+                "wraplength": 0,
+                "width": 0,
+                "font": {
+                  "family": "",
+                  "size": 0,
+                  "bold": false,
+                  "italic": false,
+                  "underline": false
+                },
+                "fg": "",
+                "bg": "",
+                "tooltip": "",
+                "cursor": ""
+              },
+              "layout": {
+                "row": 3,
+                "col": 0,
+                "rowspan": 1,
+                "colspan": 1,
+                "fill": "none",
+                "halign": "left",
+                "valign": "center",
+                "padx": 6,
+                "pady": 4
+              },
+              "events": {
+                "on_click": []
+              },
+              "hooks": []
+            },
+            {
+              "id": "i_cm4",
+              "type": "Entry",
+              "props": {
+                "text": "800",
+                "placeholder": "",
+                "value_type": "float",
+                "password": false,
+                "justify": "left",
+                "state": "normal",
+                "width": 20,
+                "font": {
+                  "family": "",
+                  "size": 0,
+                  "bold": false,
+                  "italic": false,
+                  "underline": false
+                },
+                "fg": "",
+                "bg": "",
+                "tooltip": ""
+              },
+              "layout": {
+                "row": 3,
+                "col": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "fill": "x",
+                "halign": "left",
+                "valign": "center",
+                "padx": 6,
+                "pady": 4
+              },
+              "events": {
+                "on_enter": [],
+                "on_change": []
+              },
+              "hooks": []
+            }
+          ]
+        },
+        {
+          "id": "calculate",
+          "type": "Button",
+          "props": {
+            "text": "Calculate",
+            "variant": "Accent",
+            "image": "",
+            "compound": "left",
+            "shortcut": "F9",
+            "default": false,
+            "width": 0,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "state": "normal",
+            "tooltip": "Shortcut: F9",
+            "cursor": ""
+          },
+          "layout": {
+            "row": 2,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "right",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "command": [
+              {
+                "type": "call_function",
+                "params": {
+                  "module": "engineering",
+                  "function": "beam_deflection",
+                  "args": [
+                    {
+                      "name": "load_n",
+                      "source": "widget",
+                      "widget": "load_n",
+                      "value": ""
+                    },
+                    {
+                      "name": "length_m",
+                      "source": "widget",
+                      "widget": "length_m",
+                      "value": ""
+                    },
+                    {
+                      "name": "e_gpa",
+                      "source": "widget",
+                      "widget": "e_gpa",
+                      "value": ""
+                    },
+                    {
+                      "name": "i_cm4",
+                      "source": "widget",
+                      "widget": "i_cm4",
+                      "value": ""
+                    }
+                  ],
+                  "result": "dict",
+                  "result_widget": "",
+                  "result_widgets": [],
+                  "background": false,
+                  "busy": "",
+                  "show_errors": true
+                }
+              }
+            ]
+          },
+          "hooks": [
+            "command"
+          ]
+        },
+        {
+          "id": "group2",
+          "type": "LabelFrame",
+          "props": {
+            "text": "Results",
+            "variant": "",
+            "padding": 8,
+            "labelanchor": "nw",
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": ""
+          },
+          "layout": {
+            "row": 3,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "x",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {},
+          "hooks": [],
+          "children": [
+            {
+              "id": "label6",
+              "type": "Label",
+              "props": {
+                "text": "Max deflection (mm)",
+                "variant": "",
+                "image": "",
+                "compound": "left",
+                "anchor": "w",
+                "justify": "left",
+                "wraplength": 0,
+                "width": 0,
+                "font": {
+                  "family": "",
+                  "size": 0,
+                  "bold": false,
+                  "italic": false,
+                  "underline": false
+                },
+                "fg": "",
+                "bg": "",
+                "tooltip": "",
+                "cursor": ""
+              },
+              "layout": {
+                "row": 0,
+                "col": 0,
+                "rowspan": 1,
+                "colspan": 1,
+                "fill": "none",
+                "halign": "left",
+                "valign": "center",
+                "padx": 6,
+                "pady": 4
+              },
+              "events": {
+                "on_click": []
+              },
+              "hooks": []
+            },
+            {
+              "id": "deflection_mm",
+              "type": "Label",
+              "props": {
+                "text": "\u2013",
+                "variant": "Mono",
+                "image": "",
+                "compound": "left",
+                "anchor": "w",
+                "justify": "left",
+                "wraplength": 0,
+                "width": 0,
+                "font": {
+                  "family": "",
+                  "size": 0,
+                  "bold": false,
+                  "italic": false,
+                  "underline": false
+                },
+                "fg": "",
+                "bg": "",
+                "tooltip": "",
+                "cursor": ""
+              },
+              "layout": {
+                "row": 0,
+                "col": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "fill": "none",
+                "halign": "left",
+                "valign": "center",
+                "padx": 6,
+                "pady": 4
+              },
+              "events": {
+                "on_click": []
+              },
+              "hooks": []
+            },
+            {
+              "id": "label7",
+              "type": "Label",
+              "props": {
+                "text": "Max bending moment (kN\u00b7m)",
+                "variant": "",
+                "image": "",
+                "compound": "left",
+                "anchor": "w",
+                "justify": "left",
+                "wraplength": 0,
+                "width": 0,
+                "font": {
+                  "family": "",
+                  "size": 0,
+                  "bold": false,
+                  "italic": false,
+                  "underline": false
+                },
+                "fg": "",
+                "bg": "",
+                "tooltip": "",
+                "cursor": ""
+              },
+              "layout": {
+                "row": 1,
+                "col": 0,
+                "rowspan": 1,
+                "colspan": 1,
+                "fill": "none",
+                "halign": "left",
+                "valign": "center",
+                "padx": 6,
+                "pady": 4
+              },
+              "events": {
+                "on_click": []
+              },
+              "hooks": []
+            },
+            {
+              "id": "moment_knm",
+              "type": "Label",
+              "props": {
+                "text": "\u2013",
+                "variant": "Mono",
+                "image": "",
+                "compound": "left",
+                "anchor": "w",
+                "justify": "left",
+                "wraplength": 0,
+                "width": 0,
+                "font": {
+                  "family": "",
+                  "size": 0,
+                  "bold": false,
+                  "italic": false,
+                  "underline": false
+                },
+                "fg": "",
+                "bg": "",
+                "tooltip": "",
+                "cursor": ""
+              },
+              "layout": {
+                "row": 1,
+                "col": 1,
+                "rowspan": 1,
+                "colspan": 1,
+                "fill": "none",
+                "halign": "left",
+                "valign": "center",
+                "padx": 6,
+                "pady": 4
+              },
+              "events": {
+                "on_click": []
+              },
+              "hooks": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

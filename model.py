@@ -984,7 +984,9 @@ RESERVED_NAMES = {"self", "app", "tk", "ttk", "messagebox", "filedialog", "simpl
                   "protocol", "menu", "keys", "get", "set", "image", "images", "values",
                   "set_values", "log", "on", "style", "theme", "vars", "call_in_gui",
                   "run_in_background", "windows", "os", "sys", "threading", "queue",
-                  "json", "csv", "subprocess", "webbrowser", "time", "re"}
+                  "json", "csv", "subprocess", "webbrowser", "time", "re", "widget",
+                  "show_info", "show_warning", "show_error", "ask_yes_no", "open_window",
+                  "close_window", "px", "SCALE"}
 try:  # every method/attribute of tk.Tk would clash with the generated App class
     import tkinter as _tk
     RESERVED_NAMES |= {n for n in dir(_tk.Tk) if not n.startswith("_")}

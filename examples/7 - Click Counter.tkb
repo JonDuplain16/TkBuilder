@@ -1,16 +1,32 @@
 {
-  "version": 1,
-  "app_name": "My App",
+  "version": 2,
+  "settings": {
+    "app_name": "Click Counter",
+    "theme": "sunset",
+    "font_family": "",
+    "font_size": 0,
+    "dpi_aware": true,
+    "code_style": "split",
+    "backend_dir": "",
+    "threads": true,
+    "description": "Three buttons that change a number - no code at all."
+  },
   "windows": [
     {
       "id": "main_window",
       "type": "Window",
       "props": {
         "title": "Click Counter",
+        "icon": "",
         "width": 300,
-        "height": 200,
+        "height": 210,
+        "min_width": 0,
+        "min_height": 0,
+        "padding": 12,
         "resizable": true,
-        "padding": 10,
+        "start": "center",
+        "topmost": false,
+        "timer_ms": 0,
         "bg": "",
         "menu": []
       },
@@ -20,22 +36,27 @@
         "rowspan": 1,
         "colspan": 1,
         "fill": "none",
-        "halign": "center",
+        "halign": "left",
         "valign": "center",
-        "padx": 5,
-        "pady": 5
+        "padx": 6,
+        "pady": 4
       },
       "events": {
         "on_open": [],
-        "on_close": []
+        "on_close": [],
+        "on_timer": []
       },
+      "hooks": [],
       "children": [
         {
           "id": "count",
           "type": "Label",
           "props": {
             "text": "0",
+            "variant": "Title",
             "image": "",
+            "compound": "left",
+            "anchor": "center",
             "justify": "left",
             "wraplength": 0,
             "width": 0,
@@ -47,27 +68,36 @@
               "underline": false
             },
             "fg": "",
-            "bg": ""
+            "bg": "",
+            "tooltip": "",
+            "cursor": ""
           },
           "layout": {
             "row": 0,
             "col": 0,
             "rowspan": 1,
             "colspan": 3,
-            "fill": "none",
-            "halign": "center",
+            "fill": "x",
+            "halign": "left",
             "valign": "center",
-            "padx": 5,
-            "pady": 5
+            "padx": 6,
+            "pady": 4
           },
-          "events": {}
+          "events": {
+            "on_click": []
+          },
+          "hooks": []
         },
         {
           "id": "button1",
           "type": "Button",
           "props": {
             "text": "\u2212 1",
+            "variant": "",
             "image": "",
+            "compound": "left",
+            "shortcut": "",
+            "default": false,
             "width": 6,
             "font": {
               "family": "",
@@ -78,7 +108,9 @@
             },
             "fg": "",
             "bg": "",
-            "state": "normal"
+            "state": "normal",
+            "tooltip": "",
+            "cursor": ""
           },
           "layout": {
             "row": 1,
@@ -86,10 +118,10 @@
             "rowspan": 1,
             "colspan": 1,
             "fill": "none",
-            "halign": "center",
+            "halign": "left",
             "valign": "center",
-            "padx": 5,
-            "pady": 5
+            "padx": 6,
+            "pady": 4
           },
           "events": {
             "command": [
@@ -101,14 +133,21 @@
                 }
               }
             ]
-          }
+          },
+          "hooks": [
+            "command"
+          ]
         },
         {
           "id": "button2",
           "type": "Button",
           "props": {
             "text": "Reset",
+            "variant": "",
             "image": "",
+            "compound": "left",
+            "shortcut": "",
+            "default": false,
             "width": 6,
             "font": {
               "family": "",
@@ -119,7 +158,9 @@
             },
             "fg": "",
             "bg": "",
-            "state": "normal"
+            "state": "normal",
+            "tooltip": "",
+            "cursor": ""
           },
           "layout": {
             "row": 1,
@@ -127,10 +168,10 @@
             "rowspan": 1,
             "colspan": 1,
             "fill": "none",
-            "halign": "center",
+            "halign": "left",
             "valign": "center",
-            "padx": 5,
-            "pady": 5
+            "padx": 6,
+            "pady": 4
           },
           "events": {
             "command": [
@@ -142,14 +183,21 @@
                 }
               }
             ]
-          }
+          },
+          "hooks": [
+            "command"
+          ]
         },
         {
           "id": "button3",
           "type": "Button",
           "props": {
             "text": "+ 1",
+            "variant": "Accent",
             "image": "",
+            "compound": "left",
+            "shortcut": "",
+            "default": false,
             "width": 6,
             "font": {
               "family": "",
@@ -159,8 +207,10 @@
               "underline": false
             },
             "fg": "",
-            "bg": "#dcfce7",
-            "state": "normal"
+            "bg": "",
+            "state": "normal",
+            "tooltip": "",
+            "cursor": ""
           },
           "layout": {
             "row": 1,
@@ -168,10 +218,10 @@
             "rowspan": 1,
             "colspan": 1,
             "fill": "none",
-            "halign": "center",
+            "halign": "left",
             "valign": "center",
-            "padx": 5,
-            "pady": 5
+            "padx": 6,
+            "pady": 4
           },
           "events": {
             "command": [
@@ -183,7 +233,10 @@
                 }
               }
             ]
-          }
+          },
+          "hooks": [
+            "command"
+          ]
         }
       ]
     }

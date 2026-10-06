@@ -1,0 +1,453 @@
+{
+  "version": 2,
+  "settings": {
+    "app_name": "Simulation Runner",
+    "theme": "nord",
+    "font_family": "",
+    "font_size": 0,
+    "dpi_aware": true,
+    "code_style": "split",
+    "backend_dir": "backend",
+    "threads": true,
+    "description": "Runs simulate() in the background with a busy bar, results in a table."
+  },
+  "windows": [
+    {
+      "id": "main_window",
+      "type": "Window",
+      "props": {
+        "title": "Simulation Runner",
+        "icon": "",
+        "width": 480,
+        "height": 460,
+        "min_width": 0,
+        "min_height": 0,
+        "padding": 12,
+        "resizable": true,
+        "start": "center",
+        "topmost": false,
+        "timer_ms": 0,
+        "bg": "",
+        "menu": []
+      },
+      "layout": {
+        "row": 0,
+        "col": 0,
+        "rowspan": 1,
+        "colspan": 1,
+        "fill": "none",
+        "halign": "left",
+        "valign": "center",
+        "padx": 6,
+        "pady": 4
+      },
+      "events": {
+        "on_open": [],
+        "on_close": [],
+        "on_timer": []
+      },
+      "hooks": [],
+      "children": [
+        {
+          "id": "label1",
+          "type": "Label",
+          "props": {
+            "text": "Steps",
+            "variant": "",
+            "image": "",
+            "compound": "left",
+            "anchor": "w",
+            "justify": "left",
+            "wraplength": 0,
+            "width": 0,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "tooltip": "",
+            "cursor": ""
+          },
+          "layout": {
+            "row": 0,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "on_click": []
+          },
+          "hooks": []
+        },
+        {
+          "id": "steps",
+          "type": "Spinbox",
+          "props": {
+            "from_": 10,
+            "to": 500,
+            "increment": 10,
+            "decimals": 0,
+            "value": 100,
+            "wrap": false,
+            "width": 8,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "state": "normal",
+            "tooltip": ""
+          },
+          "layout": {
+            "row": 0,
+            "col": 1,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "command": []
+          },
+          "hooks": []
+        },
+        {
+          "id": "label2",
+          "type": "Label",
+          "props": {
+            "text": "Noise",
+            "variant": "",
+            "image": "",
+            "compound": "left",
+            "anchor": "w",
+            "justify": "left",
+            "wraplength": 0,
+            "width": 0,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "tooltip": "",
+            "cursor": ""
+          },
+          "layout": {
+            "row": 0,
+            "col": 2,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "on_click": []
+          },
+          "hooks": []
+        },
+        {
+          "id": "noise",
+          "type": "Entry",
+          "props": {
+            "text": "0.1",
+            "placeholder": "",
+            "value_type": "float",
+            "password": false,
+            "justify": "left",
+            "state": "normal",
+            "width": 8,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "tooltip": ""
+          },
+          "layout": {
+            "row": 0,
+            "col": 3,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "on_enter": [],
+            "on_change": []
+          },
+          "hooks": []
+        },
+        {
+          "id": "run_button",
+          "type": "Button",
+          "props": {
+            "text": "Run simulation",
+            "variant": "Accent",
+            "image": "",
+            "compound": "left",
+            "shortcut": "",
+            "default": false,
+            "width": 0,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "state": "normal",
+            "tooltip": "",
+            "cursor": ""
+          },
+          "layout": {
+            "row": 0,
+            "col": 4,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "command": [
+              {
+                "type": "set_text",
+                "params": {
+                  "target": "info",
+                  "text": "Running {steps} steps\u2026"
+                }
+              },
+              {
+                "type": "call_function",
+                "params": {
+                  "module": "engineering",
+                  "function": "simulate",
+                  "args": [
+                    {
+                      "name": "steps",
+                      "source": "widget",
+                      "widget": "steps",
+                      "value": ""
+                    },
+                    {
+                      "name": "noise",
+                      "source": "widget",
+                      "widget": "noise",
+                      "value": ""
+                    }
+                  ],
+                  "result": "widget",
+                  "result_widget": "results",
+                  "result_widgets": [],
+                  "background": true,
+                  "busy": "busy",
+                  "show_errors": true
+                }
+              },
+              {
+                "type": "set_text",
+                "params": {
+                  "target": "info",
+                  "text": "Finished {steps} steps."
+                }
+              }
+            ]
+          },
+          "hooks": [
+            "command"
+          ]
+        },
+        {
+          "id": "busy",
+          "type": "Progressbar",
+          "props": {
+            "value": 0,
+            "maximum": 100,
+            "orient": "horizontal",
+            "length": 200,
+            "mode": "determinate"
+          },
+          "layout": {
+            "row": 1,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 5,
+            "fill": "x",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {},
+          "hooks": []
+        },
+        {
+          "id": "results",
+          "type": "Table",
+          "props": {
+            "columns": [
+              {
+                "title": "Step",
+                "width": 60,
+                "anchor": "e"
+              },
+              {
+                "title": "x",
+                "width": 80,
+                "anchor": "e"
+              },
+              {
+                "title": "y",
+                "width": 120,
+                "anchor": "e"
+              }
+            ],
+            "rows": [],
+            "height": 10,
+            "selectmode": "browse",
+            "striped": true,
+            "scrollbar": true,
+            "tooltip": ""
+          },
+          "layout": {
+            "row": 2,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 5,
+            "fill": "both",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "on_select": [],
+            "on_double_click": []
+          },
+          "hooks": []
+        },
+        {
+          "id": "save_csv",
+          "type": "Button",
+          "props": {
+            "text": "Save CSV\u2026",
+            "variant": "",
+            "image": "",
+            "compound": "left",
+            "shortcut": "",
+            "default": false,
+            "width": 0,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "state": "normal",
+            "tooltip": "",
+            "cursor": ""
+          },
+          "layout": {
+            "row": 3,
+            "col": 4,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "command": [
+              {
+                "type": "export_table",
+                "params": {
+                  "target": "results",
+                  "path": ""
+                }
+              }
+            ]
+          },
+          "hooks": [
+            "command"
+          ]
+        },
+        {
+          "id": "info",
+          "type": "Label",
+          "props": {
+            "text": "Press Run simulation.",
+            "variant": "Muted",
+            "image": "",
+            "compound": "left",
+            "anchor": "w",
+            "justify": "left",
+            "wraplength": 0,
+            "width": 0,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "tooltip": "",
+            "cursor": ""
+          },
+          "layout": {
+            "row": 3,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 4,
+            "fill": "none",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "on_click": []
+          },
+          "hooks": []
+        }
+      ]
+    }
+  ]
+}

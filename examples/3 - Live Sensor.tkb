@@ -1,0 +1,395 @@
+{
+  "version": 2,
+  "settings": {
+    "app_name": "Live Sensor",
+    "theme": "midnight",
+    "font_family": "",
+    "font_size": 0,
+    "dpi_aware": true,
+    "code_style": "split",
+    "backend_dir": "backend",
+    "threads": true,
+    "description": "A window timer calls sensor_reading() every second and logs it."
+  },
+  "windows": [
+    {
+      "id": "main_window",
+      "type": "Window",
+      "props": {
+        "title": "Live Sensor",
+        "icon": "",
+        "width": 460,
+        "height": 420,
+        "min_width": 0,
+        "min_height": 0,
+        "padding": 12,
+        "resizable": true,
+        "start": "center",
+        "topmost": false,
+        "timer_ms": 1000,
+        "bg": "",
+        "menu": []
+      },
+      "layout": {
+        "row": 0,
+        "col": 0,
+        "rowspan": 1,
+        "colspan": 1,
+        "fill": "none",
+        "halign": "left",
+        "valign": "center",
+        "padx": 6,
+        "pady": 4
+      },
+      "events": {
+        "on_open": [],
+        "on_close": [],
+        "on_timer": [
+          {
+            "type": "call_function",
+            "params": {
+              "module": "engineering",
+              "function": "sensor_reading",
+              "args": [
+                {
+                  "name": "channel",
+                  "source": "widget",
+                  "widget": "channel",
+                  "value": ""
+                }
+              ],
+              "result": "dict",
+              "result_widget": "",
+              "result_widgets": [],
+              "background": false,
+              "busy": "",
+              "show_errors": true
+            }
+          },
+          {
+            "type": "log",
+            "params": {
+              "target": "readings",
+              "text": "channel {channel}: {temperature}"
+            }
+          }
+        ]
+      },
+      "hooks": [],
+      "children": [
+        {
+          "id": "label1",
+          "type": "Label",
+          "props": {
+            "text": "Channel",
+            "variant": "",
+            "image": "",
+            "compound": "left",
+            "anchor": "w",
+            "justify": "left",
+            "wraplength": 0,
+            "width": 0,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "tooltip": "",
+            "cursor": ""
+          },
+          "layout": {
+            "row": 0,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "on_click": []
+          },
+          "hooks": []
+        },
+        {
+          "id": "channel",
+          "type": "Spinbox",
+          "props": {
+            "from_": 0,
+            "to": 3,
+            "increment": 1,
+            "decimals": 0,
+            "value": 0,
+            "wrap": false,
+            "width": 8,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "state": "normal",
+            "tooltip": ""
+          },
+          "layout": {
+            "row": 0,
+            "col": 1,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "command": []
+          },
+          "hooks": []
+        },
+        {
+          "id": "start",
+          "type": "Button",
+          "props": {
+            "text": "Start",
+            "variant": "Success",
+            "image": "",
+            "compound": "left",
+            "shortcut": "",
+            "default": false,
+            "width": 0,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "state": "normal",
+            "tooltip": "",
+            "cursor": ""
+          },
+          "layout": {
+            "row": 0,
+            "col": 2,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "command": [
+              {
+                "type": "timer_control",
+                "params": {
+                  "window": "main_window",
+                  "state": "start"
+                }
+              }
+            ]
+          },
+          "hooks": [
+            "command"
+          ]
+        },
+        {
+          "id": "stop",
+          "type": "Button",
+          "props": {
+            "text": "Stop",
+            "variant": "",
+            "image": "",
+            "compound": "left",
+            "shortcut": "",
+            "default": false,
+            "width": 0,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "state": "normal",
+            "tooltip": "",
+            "cursor": ""
+          },
+          "layout": {
+            "row": 0,
+            "col": 3,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "command": [
+              {
+                "type": "timer_control",
+                "params": {
+                  "window": "main_window",
+                  "state": "stop"
+                }
+              }
+            ]
+          },
+          "hooks": [
+            "command"
+          ]
+        },
+        {
+          "id": "temperature",
+          "type": "Label",
+          "props": {
+            "text": "-- \u00b0C",
+            "variant": "Title",
+            "image": "",
+            "compound": "left",
+            "anchor": "w",
+            "justify": "left",
+            "wraplength": 0,
+            "width": 0,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "tooltip": "",
+            "cursor": ""
+          },
+          "layout": {
+            "row": 1,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 4,
+            "fill": "none",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "on_click": []
+          },
+          "hooks": []
+        },
+        {
+          "id": "level",
+          "type": "Progressbar",
+          "props": {
+            "value": 0,
+            "maximum": 100,
+            "orient": "horizontal",
+            "length": 200,
+            "mode": "determinate"
+          },
+          "layout": {
+            "row": 2,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 4,
+            "fill": "x",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {},
+          "hooks": []
+        },
+        {
+          "id": "status",
+          "type": "Label",
+          "props": {
+            "text": "Waiting for the first reading\u2026",
+            "variant": "Muted",
+            "image": "",
+            "compound": "left",
+            "anchor": "w",
+            "justify": "left",
+            "wraplength": 0,
+            "width": 0,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "tooltip": "",
+            "cursor": ""
+          },
+          "layout": {
+            "row": 3,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 4,
+            "fill": "none",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "on_click": []
+          },
+          "hooks": []
+        },
+        {
+          "id": "readings",
+          "type": "Console",
+          "props": {
+            "width": 60,
+            "height": 6,
+            "capture_print": false,
+            "timestamps": true,
+            "max_lines": 500,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            }
+          },
+          "layout": {
+            "row": 4,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 4,
+            "fill": "both",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {},
+          "hooks": []
+        }
+      ]
+    }
+  ]
+}

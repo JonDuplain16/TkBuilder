@@ -107,7 +107,9 @@ def style_name(node):
         return None
     variant = node["props"].get("variant") or ""
     base = (variant + "." + cls) if variant else cls
-    if _style_overrides(node):
+    own_font = node["type"] in ("Label", "Button", "Checkbutton", "Radiobutton") \
+        and font_value(node["props"].get("font"), {"size": 10}) is not None
+    if _style_overrides(node) or own_font:
         return node["id"] + "." + base
     return base if variant else None
 
@@ -280,9 +282,10 @@ def widget_options(node, ctx):
         if t == "Text":
             add("wrap", p.get("wrap"), ("", None, "char"))
             add("undo", True)
-            font = font_value(p.get("font"), ctx)
+            # explicit app font (Tk's default for Text is a fixed-width font)
+            font = font_value(p.get("font"), ctx) or (FAMILY, ctx["size"])
             if p.get("monospace"):
-                font = (MONO_FAMILY,) + (font[1:] if font else (ctx["size"],))
+                font = (MONO_FAMILY,) + font[1:]
             add("font", font)
             tk_colors("Text")
         else:
@@ -354,7 +357,8 @@ def widget_options(node, ctx):
         o.append(("columns", tuple("c%d" % i for i in range(len(cols)))))
         o.append(("show", "headings"))
         add("height", int(p.get("height") or 8))
-        add("selectmode", p.get("selectmode"), ("", None, "browse"))
+        # always explicit: a Treeview's own default is "extended"
+        o.append(("selectmode", p.get("selectmode") or "browse"))
     elif t == "FilePicker":
         add("width", int(p.get("width") or 30))
     return o

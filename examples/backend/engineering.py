@@ -49,3 +49,20 @@ def summarize(values: list) -> list:
     sd = (sum((v - mean) ** 2 for v in vals) / n) ** 0.5 if n else 0
     return [["Count", n], ["Mean", round(mean, 4)], ["Std dev", round(sd, 4)],
             ["Min", min(vals) if vals else ""], ["Max", max(vals) if vals else ""]]
+
+
+def sensor_reading(channel: int = 0) -> dict:
+    """One reading for the live dashboard: text, gauge level (0-100) and status."""
+    t = read_sensor(channel)
+    level = max(0.0, min(100.0, (t - 10) * 5))
+    status = "High - check cooling" if t > 24 else ("Low" if t < 16 else "Normal")
+    return {"temperature": "%.2f °C" % t, "level": round(level, 1), "status": status}
+
+
+def simulate(steps: int = 100, noise: float = 0.1) -> list:
+    """A slow simulation (run it in the background). Returns table rows
+    [step, x, y] - a list of lists fills a Table directly."""
+    rows = []
+    for k, (x, y) in enumerate(zip(*run_simulation(steps, noise))):
+        rows.append([k + 1, x, round(y, 4)])
+    return rows

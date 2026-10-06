@@ -1,0 +1,421 @@
+{
+  "version": 2,
+  "settings": {
+    "app_name": "Unit Converter",
+    "theme": "ocean",
+    "font_family": "",
+    "font_size": 0,
+    "dpi_aware": true,
+    "code_style": "split",
+    "backend_dir": "backend",
+    "threads": true,
+    "description": "Calls unit_convert(value, conversion) whenever an input changes."
+  },
+  "windows": [
+    {
+      "id": "main_window",
+      "type": "Window",
+      "props": {
+        "title": "Unit Converter",
+        "icon": "",
+        "width": 380,
+        "height": 220,
+        "min_width": 0,
+        "min_height": 0,
+        "padding": 12,
+        "resizable": true,
+        "start": "center",
+        "topmost": false,
+        "timer_ms": 0,
+        "bg": "",
+        "menu": []
+      },
+      "layout": {
+        "row": 0,
+        "col": 0,
+        "rowspan": 1,
+        "colspan": 1,
+        "fill": "none",
+        "halign": "left",
+        "valign": "center",
+        "padx": 6,
+        "pady": 4
+      },
+      "events": {
+        "on_open": [],
+        "on_close": [],
+        "on_timer": []
+      },
+      "hooks": [],
+      "children": [
+        {
+          "id": "label1",
+          "type": "Label",
+          "props": {
+            "text": "Value",
+            "variant": "",
+            "image": "",
+            "compound": "left",
+            "anchor": "w",
+            "justify": "left",
+            "wraplength": 0,
+            "width": 0,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "tooltip": "",
+            "cursor": ""
+          },
+          "layout": {
+            "row": 0,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "on_click": []
+          },
+          "hooks": []
+        },
+        {
+          "id": "value",
+          "type": "Entry",
+          "props": {
+            "text": "25.4",
+            "placeholder": "",
+            "value_type": "float",
+            "password": false,
+            "justify": "left",
+            "state": "normal",
+            "width": 20,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "tooltip": ""
+          },
+          "layout": {
+            "row": 0,
+            "col": 1,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "x",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "on_enter": [
+              {
+                "type": "call_function",
+                "params": {
+                  "module": "engineering",
+                  "function": "unit_convert",
+                  "args": [
+                    {
+                      "name": "value",
+                      "source": "widget",
+                      "widget": "value",
+                      "value": ""
+                    },
+                    {
+                      "name": "conversion",
+                      "source": "widget",
+                      "widget": "conversion",
+                      "value": ""
+                    }
+                  ],
+                  "result": "widget",
+                  "result_widget": "result",
+                  "result_widgets": [],
+                  "background": false,
+                  "busy": "",
+                  "show_errors": true
+                }
+              }
+            ],
+            "on_change": []
+          },
+          "hooks": []
+        },
+        {
+          "id": "label2",
+          "type": "Label",
+          "props": {
+            "text": "Conversion",
+            "variant": "",
+            "image": "",
+            "compound": "left",
+            "anchor": "w",
+            "justify": "left",
+            "wraplength": 0,
+            "width": 0,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "tooltip": "",
+            "cursor": ""
+          },
+          "layout": {
+            "row": 1,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "on_click": []
+          },
+          "hooks": []
+        },
+        {
+          "id": "conversion",
+          "type": "Combobox",
+          "props": {
+            "items": [
+              "mm to inch",
+              "inch to mm",
+              "bar to psi",
+              "psi to bar",
+              "kg to lb",
+              "lb to kg"
+            ],
+            "text": "mm to inch",
+            "value_type": "text",
+            "readonly": true,
+            "width": 18,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "state": "normal",
+            "tooltip": ""
+          },
+          "layout": {
+            "row": 1,
+            "col": 1,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "x",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "on_select": [
+              {
+                "type": "call_function",
+                "params": {
+                  "module": "engineering",
+                  "function": "unit_convert",
+                  "args": [
+                    {
+                      "name": "value",
+                      "source": "widget",
+                      "widget": "value",
+                      "value": ""
+                    },
+                    {
+                      "name": "conversion",
+                      "source": "widget",
+                      "widget": "conversion",
+                      "value": ""
+                    }
+                  ],
+                  "result": "widget",
+                  "result_widget": "result",
+                  "result_widgets": [],
+                  "background": false,
+                  "busy": "",
+                  "show_errors": true
+                }
+              }
+            ]
+          },
+          "hooks": []
+        },
+        {
+          "id": "convert",
+          "type": "Button",
+          "props": {
+            "text": "Convert",
+            "variant": "Accent",
+            "image": "",
+            "compound": "left",
+            "shortcut": "",
+            "default": false,
+            "width": 0,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "state": "normal",
+            "tooltip": "",
+            "cursor": ""
+          },
+          "layout": {
+            "row": 2,
+            "col": 1,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "right",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "command": [
+              {
+                "type": "call_function",
+                "params": {
+                  "module": "engineering",
+                  "function": "unit_convert",
+                  "args": [
+                    {
+                      "name": "value",
+                      "source": "widget",
+                      "widget": "value",
+                      "value": ""
+                    },
+                    {
+                      "name": "conversion",
+                      "source": "widget",
+                      "widget": "conversion",
+                      "value": ""
+                    }
+                  ],
+                  "result": "widget",
+                  "result_widget": "result",
+                  "result_widgets": [],
+                  "background": false,
+                  "busy": "",
+                  "show_errors": true
+                }
+              }
+            ]
+          },
+          "hooks": [
+            "command"
+          ]
+        },
+        {
+          "id": "label3",
+          "type": "Label",
+          "props": {
+            "text": "Result",
+            "variant": "",
+            "image": "",
+            "compound": "left",
+            "anchor": "w",
+            "justify": "left",
+            "wraplength": 0,
+            "width": 0,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "tooltip": "",
+            "cursor": ""
+          },
+          "layout": {
+            "row": 3,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "on_click": []
+          },
+          "hooks": []
+        },
+        {
+          "id": "result",
+          "type": "Label",
+          "props": {
+            "text": "\u2013",
+            "variant": "Title",
+            "image": "",
+            "compound": "left",
+            "anchor": "w",
+            "justify": "left",
+            "wraplength": 0,
+            "width": 0,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "tooltip": "",
+            "cursor": ""
+          },
+          "layout": {
+            "row": 3,
+            "col": 1,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "left",
+            "valign": "center",
+            "padx": 6,
+            "pady": 4
+          },
+          "events": {
+            "on_click": []
+          },
+          "hooks": []
+        }
+      ]
+    }
+  ]
+}

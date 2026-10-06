@@ -136,7 +136,7 @@ THEME_ORDER = ["native", "modern_light", "modern_dark", "slate", "ocean", "fores
 # key -> (friendly name, ttk class it applies to)
 VARIANTS = {
     "TButton": [["", "Normal"], ["Accent", "Accent (main action)"], ["Success", "Success (green)"],
-                ["Danger", "Danger (red)"], ["Toolbutton", "Flat (toolbar)"]],
+                ["Danger", "Danger (red)"], ["Flat", "Flat (toolbar)"]],
     "TLabel": [["", "Normal"], ["Title", "Title (big)"], ["Heading", "Heading"],
                ["Muted", "Muted (grey)"], ["Success", "Success (green)"],
                ["Danger", "Danger (red)"], ["Mono", "Monospace (numbers/code)"]],
@@ -198,7 +198,7 @@ TTK_CLASSES = ["TFrame", "TLabel", "TButton", "TCheckbutton", "TRadiobutton", "T
                "TNotebook.Tab", "Horizontal.TScale", "Vertical.TScale",
                "Horizontal.TProgressbar", "Vertical.TProgressbar", "TSeparator",
                "Treeview", "Treeview.Heading", "Vertical.TScrollbar", "Horizontal.TScrollbar",
-               "TPanedwindow", "TMenubutton", "Toolbutton"]
+               "TPanedwindow", "TMenubutton"]
 
 
 def style_ops(key, size=None):
@@ -226,6 +226,7 @@ def style_ops(key, size=None):
         conf("Accent.TButton", font=_f(size, "bold"))
         conf("Success.TButton", font=_f(size, "bold"), foreground="#15803d")
         conf("Danger.TButton", font=_f(size, "bold"), foreground="#b91c1c")
+        conf("Flat.TButton", relief="flat", padding=(6, 2))
         conf("Title.TLabel", font=_f(size + 9, "bold"))
         conf("Heading.TLabel", font=_f(size + 3, "bold"))
         conf("Muted.TLabel", foreground="#6b7280")
@@ -267,9 +268,9 @@ def style_ops(key, size=None):
              lightcolor=[("pressed", hover), ("active", hover)],
              darkcolor=[("pressed", hover), ("active", hover)],
              bordercolor=[("focus", fg)], foreground=[("disabled", disabled)])
-    conf("Toolbutton", background=bg, foreground=fg, bordercolor=bg, lightcolor=bg,
+    conf("Flat.TButton", background=bg, foreground=fg, bordercolor=bg, lightcolor=bg,
          darkcolor=bg, padding=(8, 4), relief="flat")
-    smap("Toolbutton", background=[("pressed", border), ("selected", border), ("active", button_hover)],
+    smap("Flat.TButton", background=[("pressed", border), ("selected", border), ("active", button_hover)],
          lightcolor=[("active", button_hover)], darkcolor=[("active", button_hover)],
          bordercolor=[("active", button_hover)])
     conf("Title.TLabel", font=_f(size + 9, "bold"), foreground=fg)
