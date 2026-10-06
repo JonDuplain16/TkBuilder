@@ -248,7 +248,7 @@ WIDGETS = {
         ],
     },
     "Entry": {
-        "name": "Text Box", "icon": "⎕", "category": "Input",
+        "name": "Text Box", "icon": "⌨", "category": "Input",
         "help": "A one-line box where the user can type text or a number.",
         "events": [["on_enter", "When Enter is pressed", "submitted"],
                    ["on_change", "When the text changes", "changed"]],

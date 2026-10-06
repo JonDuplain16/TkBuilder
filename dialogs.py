@@ -362,8 +362,18 @@ def menu_hook_stub(menu_label, item_label):
 # ----------------------------------------------------------------------------
 
 def project_dir(app):
-    """Folder of the saved project file (None while unsaved)."""
-    path = getattr(app, "file_path", None) if app is not None else None
+    """Folder that the project's relative paths are relative to: the saved
+    project file's folder, or the template's folder for an unsaved template
+    (asked from the app). None if unknown."""
+    if app is None:
+        return None
+    getter = getattr(app, "project_dir", None)
+    if callable(getter) and (getattr(app, "file_path", None) or getattr(app, "_base_dir", None)):
+        try:
+            return os.path.abspath(getter())
+        except Exception:  # noqa: BLE001 - fall back to the file path
+            pass
+    path = getattr(app, "file_path", None)
     return os.path.dirname(os.path.abspath(path)) if path else None
 
 

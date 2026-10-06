@@ -61,6 +61,12 @@ widget, several widgets (tuple), or **widgets with matching names** (dict -
 above, labels named `deflection_mm` and `moment_knm`). Long calculations run in
 the background with a busy bar, so the window never freezes.
 
+![Calling your own function](docs/function-picker.png)
+
+The exported app (Beam Calculator template):
+
+![Generated app](docs/beam-app.png)
+
 *Run a program / command* streams the output of any script or `.exe` into an
 **Output Console**; a window **timer** repeats actions, e.g. to show live readings.
 
