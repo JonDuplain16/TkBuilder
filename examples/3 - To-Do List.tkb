@@ -1,0 +1,279 @@
+{
+  "version": 1,
+  "app_name": "My App",
+  "windows": [
+    {
+      "id": "main_window",
+      "type": "Window",
+      "props": {
+        "title": "To-Do List",
+        "width": 380,
+        "height": 340,
+        "resizable": true,
+        "padding": 10,
+        "bg": "",
+        "menu": [
+          {
+            "label": "File",
+            "items": [
+              {
+                "label": "Clear all tasks",
+                "actions": [
+                  {
+                    "type": "confirm",
+                    "params": {
+                      "title": "Please confirm",
+                      "message": "Remove every task?"
+                    }
+                  },
+                  {
+                    "type": "clear",
+                    "params": {
+                      "target": "tasks"
+                    }
+                  }
+                ]
+              },
+              {
+                "separator": true
+              },
+              {
+                "label": "Quit",
+                "actions": [
+                  {
+                    "type": "quit_app",
+                    "params": {}
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "label": "Help",
+            "items": [
+              {
+                "label": "About",
+                "actions": [
+                  {
+                    "type": "show_message",
+                    "params": {
+                      "title": "About",
+                      "message": "A tiny to-do list made with TkBuilder.",
+                      "icon": "info"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "layout": {
+        "row": 0,
+        "col": 0,
+        "rowspan": 1,
+        "colspan": 1,
+        "fill": "none",
+        "halign": "center",
+        "valign": "center",
+        "padx": 5,
+        "pady": 5
+      },
+      "events": {
+        "on_open": [],
+        "on_close": []
+      },
+      "children": [
+        {
+          "id": "new_task",
+          "type": "Entry",
+          "props": {
+            "text": "",
+            "password": false,
+            "width": 20,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "state": "normal"
+          },
+          "layout": {
+            "row": 0,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "x",
+            "halign": "center",
+            "valign": "center",
+            "padx": 5,
+            "pady": 5
+          },
+          "events": {
+            "on_enter": [
+              {
+                "type": "check",
+                "params": {
+                  "target": "new_task",
+                  "condition": "not_empty",
+                  "value": "",
+                  "message": "Type a task first."
+                }
+              },
+              {
+                "type": "add_item",
+                "params": {
+                  "target": "tasks",
+                  "text": "{new_task}"
+                }
+              },
+              {
+                "type": "clear",
+                "params": {
+                  "target": "new_task"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "button1",
+          "type": "Button",
+          "props": {
+            "text": "Add",
+            "image": "",
+            "width": 0,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "state": "normal"
+          },
+          "layout": {
+            "row": 0,
+            "col": 1,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "center",
+            "valign": "center",
+            "padx": 5,
+            "pady": 5
+          },
+          "events": {
+            "command": [
+              {
+                "type": "check",
+                "params": {
+                  "target": "new_task",
+                  "condition": "not_empty",
+                  "value": "",
+                  "message": "Type a task first."
+                }
+              },
+              {
+                "type": "add_item",
+                "params": {
+                  "target": "tasks",
+                  "text": "{new_task}"
+                }
+              },
+              {
+                "type": "clear",
+                "params": {
+                  "target": "new_task"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "tasks",
+          "type": "Listbox",
+          "props": {
+            "items": [
+              "Buy milk",
+              "Learn Python"
+            ],
+            "selectmode": "browse",
+            "scrollbar": true,
+            "width": 20,
+            "height": 6,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": ""
+          },
+          "layout": {
+            "row": 1,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 2,
+            "fill": "both",
+            "halign": "center",
+            "valign": "center",
+            "padx": 5,
+            "pady": 5
+          },
+          "events": {
+            "on_select": []
+          }
+        },
+        {
+          "id": "button2",
+          "type": "Button",
+          "props": {
+            "text": "Done \u2714 (remove selected)",
+            "image": "",
+            "width": 0,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "state": "normal"
+          },
+          "layout": {
+            "row": 2,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 2,
+            "fill": "none",
+            "halign": "center",
+            "valign": "center",
+            "padx": 5,
+            "pady": 5
+          },
+          "events": {
+            "command": [
+              {
+                "type": "remove_selected",
+                "params": {
+                  "target": "tasks"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

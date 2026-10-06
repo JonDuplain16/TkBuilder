@@ -1,0 +1,191 @@
+{
+  "version": 1,
+  "app_name": "My App",
+  "windows": [
+    {
+      "id": "main_window",
+      "type": "Window",
+      "props": {
+        "title": "Click Counter",
+        "width": 300,
+        "height": 200,
+        "resizable": true,
+        "padding": 10,
+        "bg": "",
+        "menu": []
+      },
+      "layout": {
+        "row": 0,
+        "col": 0,
+        "rowspan": 1,
+        "colspan": 1,
+        "fill": "none",
+        "halign": "center",
+        "valign": "center",
+        "padx": 5,
+        "pady": 5
+      },
+      "events": {
+        "on_open": [],
+        "on_close": []
+      },
+      "children": [
+        {
+          "id": "count",
+          "type": "Label",
+          "props": {
+            "text": "0",
+            "image": "",
+            "justify": "left",
+            "wraplength": 0,
+            "width": 0,
+            "font": {
+              "family": "",
+              "size": 36,
+              "bold": true,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": ""
+          },
+          "layout": {
+            "row": 0,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 3,
+            "fill": "none",
+            "halign": "center",
+            "valign": "center",
+            "padx": 5,
+            "pady": 5
+          },
+          "events": {}
+        },
+        {
+          "id": "button1",
+          "type": "Button",
+          "props": {
+            "text": "\u2212 1",
+            "image": "",
+            "width": 6,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "state": "normal"
+          },
+          "layout": {
+            "row": 1,
+            "col": 0,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "center",
+            "valign": "center",
+            "padx": 5,
+            "pady": 5
+          },
+          "events": {
+            "command": [
+              {
+                "type": "change_number",
+                "params": {
+                  "target": "count",
+                  "amount": -1
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "button2",
+          "type": "Button",
+          "props": {
+            "text": "Reset",
+            "image": "",
+            "width": 6,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "",
+            "state": "normal"
+          },
+          "layout": {
+            "row": 1,
+            "col": 1,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "center",
+            "valign": "center",
+            "padx": 5,
+            "pady": 5
+          },
+          "events": {
+            "command": [
+              {
+                "type": "set_text",
+                "params": {
+                  "target": "count",
+                  "text": "0"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "button3",
+          "type": "Button",
+          "props": {
+            "text": "+ 1",
+            "image": "",
+            "width": 6,
+            "font": {
+              "family": "",
+              "size": 0,
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "fg": "",
+            "bg": "#dcfce7",
+            "state": "normal"
+          },
+          "layout": {
+            "row": 1,
+            "col": 2,
+            "rowspan": 1,
+            "colspan": 1,
+            "fill": "none",
+            "halign": "center",
+            "valign": "center",
+            "padx": 5,
+            "pady": 5
+          },
+          "events": {
+            "command": [
+              {
+                "type": "change_number",
+                "params": {
+                  "target": "count",
+                  "amount": 1
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
