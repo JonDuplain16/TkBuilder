@@ -100,11 +100,15 @@ class _Stack:
 
     Raising a window is ~10 ms while pack_forget()/pack() of a page with many
     widgets costs hundreds of milliseconds on Windows (every child window is
-    re-mapped), so cached pages are never unpacked."""
+    re-mapped), so cached pages are never unpacked.  The stack's height only
+    ever grows: changing it makes Windows repaint every stacked page (~300 ms
+    on slow machines), so instead the scroll area is clipped to the visible
+    page (see fit_scroll)."""
 
-    def __init__(self, parent):
+    def __init__(self, parent, canvas=None):
         self.frame = tk.Frame(parent, bg=theme.BG, height=1)
         self.frame.pack(fill="x")
+        self.canvas = canvas
         self.cur = None
 
     def add(self, page_frame):
@@ -120,10 +124,34 @@ class _Stack:
         return True
 
     def _sized(self, f):
-        if f is self.cur:
-            h = max(1, f.winfo_reqheight())
-            if int(self.frame.cget("height")) != h:
+        if f is not self.cur:
+            return
+        h = max(1, f.winfo_reqheight())
+        if int(self.frame.cget("height")) < h:
+            self.frame.configure(height=h)
+        self.frame.after_idle(self.fit_scroll)
+
+    def grow(self, f):
+        """Make room for page f in advance (the stack never shrinks)."""
+        try:
+            h = f.winfo_reqheight()
+            if int(self.frame.cget("height")) < h:
                 self.frame.configure(height=h)
+                self.frame.after_idle(self.fit_scroll)
+        except tk.TclError:
+            pass
+
+    def fit_scroll(self):
+        """Limit scrolling to the visible page (the stack may be taller)."""
+        c = self.canvas
+        if c is None or self.cur is None:
+            return
+        try:
+            top = self.cur.winfo_rooty() - c.winfo_rooty() + int(c.canvasy(0))
+            bottom = top + self.cur.winfo_reqheight() + px(16)
+            c.configure(scrollregion=(0, 0, c.winfo_width(), max(bottom, c.winfo_height())))
+        except tk.TclError:
+            pass
 
 
 # ============================================================================
@@ -1601,8 +1629,10 @@ class Inspector(ttk.Frame):
         ch["kind"] = tk.Label(info, text="", bg=theme.PANEL, fg=theme.TEXT, anchor="w",
                               font=font(12, "bold"))
         ch["kind"].pack(fill="x")
-        ch["help"] = tk.Label(info, text="", bg=theme.PANEL, fg=theme.MUTED, anchor="w",
-                              justify="left", wraplength=px(232), font=font(9))
+        # fixed two-line height: the header must never change size when the
+        # selection changes (a size change repaints the whole panel - slow)
+        ch["help"] = tk.Label(info, text="", bg=theme.PANEL, fg=theme.MUTED, anchor="nw",
+                              justify="left", wraplength=px(232), font=font(9), height=2)
         ch["help"].pack(fill="x")
 
         loc = tk.Frame(head, bg=theme.PANEL)
@@ -1613,6 +1643,7 @@ class Inspector(ttk.Frame):
                                                 bg=theme.PANEL, size=9,
                                                 tip="Select the container this widget is in")
         ch["parent_link"].pack(side="left", padx=(px(4), 0))
+        loc.pack(fill="x", padx=px(12))
 
         row = tk.Frame(head, bg=theme.PANEL)
         row.pack(fill="x", padx=px(12), pady=(px(8), 0))
@@ -1647,6 +1678,9 @@ class Inspector(ttk.Frame):
         ch["code"] = ttk.Button(btns, text="</> Code", style="Small.TButton",
                                 command=lambda: self._select_tab("code"))
         theme.tooltip(ch["code"], "How to use this widget from your own Python code")
+        ch["dup"].pack(side="left")
+        ch["del"].pack(side="left", padx=(px(6), 0))
+        ch["code"].pack(side="left", padx=(px(6), 0))
 
         nb = ttk.Notebook(frame)
         nb.pack(fill="both", expand=True, padx=px(4), pady=(px(6), px(4)))
@@ -1743,32 +1777,13 @@ class Inspector(ttk.Frame):
         if node is None:
             return
         self._stale.discard(key)
-        tab = self._chrome["tabs"][key]
-        if tab["outer"] is None:
-            outer, inner = theme.scrollable(tab["tab"], bg=theme.BG)
-            outer.pack(fill="both", expand=True)
-            content = tk.Frame(inner, bg=theme.BG)
-            content.pack(fill="both", expand=True, padx=px(12), pady=(px(10), px(16)))
-            tab.update(outer=outer, content=content,
-                       stack=_Stack(content) if key in ("props", "actions") else None)
+        tab = self._ensure_tab(key)
         self._loading = True
         try:
-            if key == "props":
-                page = self._prop_pages.get(node["type"])
-                if page is None:
-                    page = PropPage(self, tab["stack"].frame, node["type"], tab["outer"].canvas)
-                    tab["stack"].add(page.frame)
-                    self._prop_pages[node["type"]] = page
+            if key in ("props", "actions"):
+                page = self._page_for(key, node["type"])
                 page.load(node)
-                self._swap(tab, "_cur_prop", page)
-            elif key == "actions":
-                page = self._action_pages.get(node["type"])
-                if page is None:
-                    page = ActionsPage(self, tab["stack"].frame, node["type"])
-                    tab["stack"].add(page.frame)
-                    self._action_pages[node["type"]] = page
-                page.load(node)
-                self._swap(tab, "_cur_actions", page)
+                self._swap(tab, "_cur_prop" if key == "props" else "_cur_actions", page)
             elif key == "layout":
                 if self._layout_page is None:
                     self._layout_page = LayoutPage(self, tab["content"], tab["outer"].canvas)
@@ -1781,6 +1796,84 @@ class Inspector(ttk.Frame):
                 self._code_page.load(node)
         finally:
             self._loading = False
+
+    def _ensure_tab(self, key):
+        """Create a tab's scrollable area the first time it's needed."""
+        tab = self._chrome["tabs"][key]
+        if tab["outer"] is None:
+            outer, inner = theme.scrollable(tab["tab"], bg=theme.BG)
+            outer.pack(fill="both", expand=True)
+            content = tk.Frame(inner, bg=theme.BG)
+            content.pack(fill="both", expand=True, padx=px(12), pady=(px(10), px(16)))
+            tab.update(outer=outer, content=content,
+                       stack=_Stack(content, outer.canvas) if key in ("props", "actions")
+                       else None)
+        return tab
+
+    def _page_for(self, key, wtype, behind=False):
+        """The cached Properties/Actions page for a widget type (built on demand).
+        behind=True builds it underneath the visible page (pre-building)."""
+        pages = self._prop_pages if key == "props" else self._action_pages
+        page = pages.get(wtype)
+        if page is None:
+            tab = self._ensure_tab(key)
+            if key == "props":
+                page = PropPage(self, tab["stack"].frame, wtype, tab["outer"].canvas)
+            else:
+                page = ActionsPage(self, tab["stack"].frame, wtype)
+            tab["stack"].add(page.frame)
+            if behind:
+                if tab["stack"].cur is not None:
+                    page.frame.lower(tab["stack"].cur)
+                # grow the stack now (idle time) rather than on first display
+                page.frame.after_idle(lambda f=page.frame, st=tab["stack"]: st.grow(f))
+            pages[wtype] = page
+        return page
+
+    # Building a page costs 0.3-1.5 s on slow machines, so the pages of the
+    # most used widget types are built in the background while the user isn't
+    # doing anything (checked every PREBUILD_TICK ms; one page per tick).
+    PREBUILD_ORDER = ["Label", "Button", "Entry", "Window", "Frame", "LabelFrame",
+                      "Combobox", "Checkbutton", "Spinbox", "Text", "Table", "Console",
+                      "Radiobutton", "Listbox", "Scale", "FilePicker", "Notebook", "Tab",
+                      "Progressbar", "Separator", "Canvas"]
+    PREBUILD_TICK = 400
+    PREBUILD_QUIET = 1.5     # seconds without mouse/keyboard input
+
+    def start_prebuild(self):
+        import time
+        self._last_input = time.monotonic()
+
+        def touched(_e=None):
+            self._last_input = time.monotonic()
+        for seq in ("<Motion>", "<KeyPress>", "<ButtonPress>"):
+            self.bind_all(seq, touched, add="+")
+        self.after(self.PREBUILD_TICK, self._prebuild_tick)
+
+    def _prebuild_tick(self):
+        import time
+        try:
+            if not self.winfo_exists():
+                return
+        except tk.TclError:
+            return
+        todo = [(k, t) for t in self.PREBUILD_ORDER for k in ("props", "actions")
+                if t in WIDGETS and (k == "props" or WIDGETS[t]["events"])
+                and t not in (self._prop_pages if k == "props" else self._action_pages)]
+        if not todo:
+            return
+        quiet = time.monotonic() - getattr(self, "_last_input", 0) >= self.PREBUILD_QUIET
+        if quiet and self.winfo_ismapped()                 and getattr(self.app.workplane, "_drag", None) is None:
+            key, wtype = todo[0]
+            try:
+                if self._chrome is None:
+                    self._build_chrome()
+                    if self._mode == "settings" and self._settings is not None:
+                        self._settings.lift()      # keep the settings page on top
+                self._page_for(key, wtype, behind=True)
+            except Exception:            # noqa: BLE001 - never disturb the user
+                self.PREBUILD_ORDER = [t for t in self.PREBUILD_ORDER if t != wtype]
+        self.after(self.PREBUILD_TICK, self._prebuild_tick)
 
     def _swap(self, tab, attr, page):
         setattr(self, attr, page)
@@ -1799,32 +1892,26 @@ class Inspector(ttk.Frame):
         ch["kind"].configure(text=_friendly_type(node, project))
         ch["help"].configure(text=spec["help"])
         parent = project.parent_of(node["id"])
-        if parent is not None and parent["type"] != "Window":
-            ch["parent_link"].configure(text="%s  ↰" % project.display_name(parent))
-            if not ch["loc"].winfo_manager():
-                ch["loc"].pack(fill="x", padx=px(12), before=ch["name_row"])
-        elif ch["loc"].winfo_manager():
-            ch["loc"].pack_forget()
+        # only texts and states change here - never the layout (see _build_chrome)
+        if parent is not None:
+            link = "%s  ↰" % project.display_name(parent)
+        elif node is project.main_window:
+            link = "nothing - this window opens when your app starts"
+        else:
+            link = "nothing - a separate window"
+        if ch["parent_link"].cget("text") != link:
+            ch["parent_link"].configure(text=link)
         self._name_for = node["id"]
         if ch["name_var"].get() != node["id"]:
             ch["name_var"].set(node["id"])
         self._name_error("")
         self.pending_name_apply = self._apply_name
-        for w in (ch["note"], ch["dup"], ch["del"], ch["code"]):
-            w.pack_forget()
-        if node["type"] == "Window":
-            if node is project.main_window:
-                ch["note"].configure(text="This window opens when your app starts.")
-                ch["note"].pack(side="left")
-            else:
-                ch["del"].configure(text="🗑 Delete window")
-                ch["del"].pack(side="left")
-                ch["code"].pack(side="left", padx=(px(6), 0))
-        else:
-            ch["del"].configure(text="🗑 Delete")
-            ch["dup"].pack(side="left")
-            ch["del"].pack(side="left", padx=(px(6), 0))
-            ch["code"].pack(side="left", padx=(px(6), 0))
+        is_window = node["type"] == "Window"
+        ch["dup"].state(["disabled"] if is_window else ["!disabled"])
+        ch["del"].state(["disabled"] if node is project.main_window else ["!disabled"])
+        del_text = "🗑 Delete window" if is_window else "🗑 Delete"
+        if ch["del"].cget("text") != del_text:
+            ch["del"].configure(text=del_text)
 
     def _select_parent(self):
         parent = self.app.project.parent_of(self.node_id) if self.node_id else None

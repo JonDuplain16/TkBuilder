@@ -442,6 +442,8 @@ class App(tk.Tk):
         left.add(self.outline, weight=2)
         self.workplane = Workplane(main, self)
         self.inspector = Inspector(main, self)
+        if hasattr(self.inspector, "start_prebuild") and not os.environ.get("TKBUILDER_NO_PREBUILD"):
+            self.inspector.start_prebuild()     # build editor pages while the user is idle
         main.add(left, weight=0)
         main.add(self.workplane, weight=1)
         main.add(self.inspector, weight=0)
